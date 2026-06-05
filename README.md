@@ -115,6 +115,126 @@ See [WebSocket Details](#websocket-quote-server) below.
 
 ---
 
+## IDE Integration Guide
+
+This MCP server works with any IDE that supports the Model Context Protocol. Below are setup instructions for popular editors.
+
+### Cursor
+
+Cursor supports MCP via a `mcp.json` config file.
+
+**Global** (all projects): `~/.cursor/mcp.json`
+**Per-project**: `.cursor/mcp.json` in your project root
+
+```json
+{
+  "mcpServers": {
+    "metatrader": {
+      "command": "metatrader-mcp-server",
+      "args": [
+        "--login",     "YOUR_MT5_LOGIN",
+        "--password",  "YOUR_MT5_PASSWORD",
+        "--server",    "YOUR_MT5_SERVER",
+        "--transport", "stdio"
+      ]
+    }
+  }
+}
+```
+
+**Steps:**
+1. Create/edit the config file at one of the paths above
+2. Replace credentials with your MT5 account details
+3. Restart Cursor
+4. Verify in **Settings → Tools & MCP** — the server should show a green status indicator
+5. Open a chat and ask: *"What's my account balance?"*
+
+> For a remote SSE server, replace `command`/`args` with `"url": "http://YOUR_VPS_IP:8080/sse"`.
+
+---
+
+### VS Code (GitHub Copilot)
+
+VS Code uses `.vscode/mcp.json` for MCP configuration with GitHub Copilot agent mode.
+
+**Workspace** (per-project): `.vscode/mcp.json` in your project root
+**Global**: Open Command Palette (`Ctrl+Shift+P`) → `MCP: Open User Configuration`
+
+```json
+{
+  "servers": {
+    "metatrader": {
+      "command": "metatrader-mcp-server",
+      "args": [
+        "--login",     "YOUR_MT5_LOGIN",
+        "--password",  "YOUR_MT5_PASSWORD",
+        "--server",    "YOUR_MT5_SERVER",
+        "--transport", "stdio"
+      ],
+      "type": "stdio"
+    }
+  }
+}
+```
+
+**Steps:**
+1. Create `.vscode/mcp.json` in your project root (or use the global config)
+2. Replace credentials with your MT5 account details
+3. Reload the VS Code window (`Ctrl+Shift+P` → `Developer: Reload Window`)
+4. Verify in the **Output** panel → select **MCP** from the dropdown
+5. Switch Copilot Chat to **Agent Mode** and ask: *"Show my open positions"*
+
+> **Note:** VS Code uses `"servers"` as the top-level key (not `"mcpServers"` like Claude/Cursor).
+
+---
+
+### Antigravity
+
+Antigravity supports MCP servers via its built-in MCP Store or manual config.
+
+**Option 1 — MCP Store (recommended):**
+1. Open the agent panel (side panel)
+2. Go to **Manage MCP Servers** or **Settings → Integrations**
+3. Click **Open MCP Config** (or "View raw config")
+4. Add the server config (see below)
+
+**Option 2 — Manual config file:**
+
+Edit `~/.gemini/config/mcp_config.json` (global) or `.agents/mcp_config.json` (per-project):
+
+```json
+{
+  "mcpServers": {
+    "metatrader": {
+      "command": "metatrader-mcp-server",
+      "args": [
+        "--login",     "YOUR_MT5_LOGIN",
+        "--password",  "YOUR_MT5_PASSWORD",
+        "--server",    "YOUR_MT5_SERVER",
+        "--transport", "stdio"
+      ]
+    }
+  }
+}
+```
+
+**Steps:**
+1. Add the config via the MCP Store UI or edit the JSON file directly
+2. Replace credentials with your MT5 account details
+3. The server should appear in the MCP servers list
+4. Start a chat and ask: *"What symbols are available?"*
+
+---
+
+### Quick Reference
+
+| IDE | Config File | Top-Level Key | Transport |
+|-----|------------|---------------|-----------|
+| Claude Desktop | `claude_desktop_config.json` | `mcpServers` | stdio / SSE |
+| Cursor | `.cursor/mcp.json` | `mcpServers` | stdio / SSE |
+| VS Code | `.vscode/mcp.json` | `servers` | stdio / http |
+| Antigravity | `mcp_config.json` | `mcpServers` | stdio / SSE |
+
 ## Configuration
 
 ### Environment Variables
