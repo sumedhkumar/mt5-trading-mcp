@@ -372,10 +372,3 @@ src/
 | Module not found | Run `pip install metatrader-mcp-server`, verify Python ≥ 3.10 |
 | Order execution failed | Verify symbol exists on your broker, market is open, sufficient margin |
 
----
-
-## License
-
-MIT — see [LICENSE](LICENSE).
-
-**Made with ❤️ by [Aria Dhanang](https://github.com/ariadng)** — [PyPI](https://pypi.org/project/metatrader-mcp-server/) · [GitHub](https://github.com/ariadng/metatrader-mcp-server) · [Issues](https://github.com/ariadng/metatrader-mcp-server/issues)
